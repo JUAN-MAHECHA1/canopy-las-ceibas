@@ -74,3 +74,24 @@ operando desde el día 1; cámbialo cuando quieras desde cualquiera de esas dos 
   empresa (hoy solo las ve el admin).
 - Compilar Tailwind con Vite en vez del CDN usado en `layouts/app.blade.php`
   (el CDN es solo para desarrollo/prototipo rápido, no para producción).
+
+## PWA (instalar como app en el celular)
+El proyecto ya trae lo necesario para que el navegador ofrezca "Instalar app" /
+"Agregar a pantalla de inicio":
+- `public/manifest.json`: nombre, colores e íconos de la app.
+- `public/sw.js`: Service Worker que cachea CSS/imágenes para que cargue rápido.
+- `public/icons/icon-192.png` y `icon-512.png`: íconos de ejemplo (cámbialos por
+  el logo real de Canopy Las Ceibas cuando lo tengas — mismas medidas, mismo nombre).
+- Enlazado en `resources/views/layouts/app.blade.php`.
+
+**Importante:** los navegadores solo permiten instalar una PWA si el sitio corre
+bajo **HTTPS** (o `localhost` para pruebas). En XAMPP local con `http://localhost`
+va a funcionar para probar cómo se ve/instala; para que tus guías la instalen de
+verdad en sus celulares en el sitio de trabajo, el proyecto debe estar publicado
+en un hosting con HTTPS.
+
+No se implementó guardado offline de registros de clientes a propósito: las
+reglas de negocio (turno abierto, guía activo, horario permitido) se validan en
+el servidor, y guardar sin conexión requeriría sincronizar después con riesgo de
+duplicados. Si más adelante ven que la señal falla seguido en el sitio, se puede
+agregar esa capa en una siguiente iteración.

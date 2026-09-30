@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Canopy Las Ceibas')</title>
+
+    {{-- PWA: hace que el navegador ofrezca "Instalar" / "Agregar a pantalla de inicio" --}}
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#065f46">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     {{-- En producción usar Vite/Tailwind compilado (ver docs/INSTALACION.md). CDN solo para prototipo rápido. --}}
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -43,5 +51,16 @@
 
         @yield('content')
     </main>
+
+    {{-- PWA: registra el Service Worker que cachea el "cascarón" visual --}}
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {
+                    // Si falla (ej. en local sin https), no rompe nada, la app sigue funcionando normal.
+                });
+            });
+        }
+    </script>
 </body>
 </html>
